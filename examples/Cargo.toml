@@ -1,0 +1,91 @@
+[package]
+name = "examples"
+version = "0.0.0"
+publish = false
+edition = "2018"
+
+[target.'cfg(unix)'.dev-dependencies]
+libc = "0.2.78"
+
+[target.'cfg(target_os = "linux")'.dev-dependencies]
+inotify = { version = "0.9", default-features = false }
+nix = "0.21"
+timerfd = "1.1.1"
+
+[dependencies]
+cynthia = { version = "0.0.2", path="../cynthia", features = ["full"] }
+nephele = { version = "0.0.1", path = "../nephele" }
+once_cell = "1.4.1"
+bytes = "1.0.0"
+serde_json = "1.0.51"
+
+[dev-dependencies]
+signal-hook = "0.1.16"
+libc = "0.2.78"
+http = "0.2.1"
+anyhow = "1.0.32"
+native-tls = "0.2.4"
+futures = "0.3.5"
+num_cpus = "1.13.0"
+tempfile = "3.1.0"
+url = "2.1.1"
+
+[[example]]
+name = "tcp_echo"
+path = "tcp_echo.rs"
+
+[[example]]
+name = "tcp_echo_buffer"
+path = "tcp_echo_buffer.rs"
+
+[[example]]
+name = "tcp_client"
+path = "tcp_client.rs"
+
+[[example]]
+name = "tcp_proxy"
+path = "tcp_proxy.rs"
+
+[[example]]
+name = "tcp_connect"
+path = "tcp_connect.rs"
+
+[[example]]
+name = "h2_client"
+path = "h2_client.rs"
+
+[[example]]
+name = "h2_server"
+path = "h2_server.rs"
+
+[[example]]
+name = "h1_client"
+path = "h1_client.rs"
+
+[[example]]
+name = "h1_proxy"
+path = "h1_proxy.rs"
+
+[[example]]
+name = "h1_server"
+path = "h1_server.rs"
+
+[[example]]
+name = "web_api"
+path = "web_api.rs"
+
+[[example]]
+name = "wait_group"
+path = "wait_group.rs"
+
+[[example]]
+name = "channel"
+path = "channel.rs"
+
+[[example]]
+name = "macro_test"
+path = "macro_test.rs"
+
+[[example]]
+name = "macro_h1_server"
+path = "macro_h1_server.rs"

@@ -1,0 +1,47 @@
+[package]
+authors = ["inkhare <iapricot@foxmail.com>"]
+description = "A high performance asynchronous programming runtime for Rust."
+edition = "2018"
+keywords = ["asynchronous", "runtime"]
+license = "MIT/Apache-2.0"
+name = "nephele"
+readme = "README.md"
+version = "0.0.1"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[features]
+default = ["std", "pin-project-lite",]
+std = ["alloc", "memchr/std"]
+alloc = [
+    "pin-project-lite",
+]
+
+[dependencies]
+cynthia = { version = "0.0.2", path="../cynthia" }
+pin-project-lite = { version = "0.2.0", optional = true }
+pin-project = "1.0.2"
+futures-core = { version = "0.3.5", default-features = false }
+futures-sink = "0.3.0"
+futures-util = { version = "0.3", default-features = false }
+bytes = "1.0.0"
+anyhow = "1.0.26"
+tracing = { version = "0.1.13", default-features = false, features = ["std"] }
+serde = { version = "1.0.106", features = ["derive"] }
+serde_qs = "0.7.0"
+thiserror = "1.0.9"
+serde_json = "1.0.51"
+serde_urlencoded = "0.7.0"
+native-tls = "0.2.3"
+byte-pool = "0.2.2"
+log = "0.4.11"
+http = "0.2"
+httparse = "1.3.4"
+slab = "0.4.2"
+fnv = "1.0.5"
+infer = "0.2.3"
+lazy_static = "1.4.0"
+memchr = { version = "2.3.3", default-features = false }
+tracing-futures = "0.2.5"
+url = { version = "2.1.1", features = ["serde"] }
+indexmap = "1.0"
