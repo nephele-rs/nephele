@@ -19,13 +19,12 @@ async fn handle(socket: Async<TcpStream>) -> Result<(), Box<dyn Error + Send + S
     Ok(())
 }
 
-fn main() -> swap::Result<()> {
-    runtime::block_on(async {
-        let listener = Async::<TcpListener>::bind(([0, 0, 0, 0], 7000))?;
-        loop {
-            let (stream, _peer_addr) = listener.accept().await?;
+#[cynthia::main]
+async fn main() -> swap::Result<()> {
+    let listener = Async::<TcpListener>::bind(([0, 0, 0, 0], 7000))?;
+    loop {
+        let (stream, _peer_addr) = listener.accept().await?;
 
-            runtime::spawn(handle(stream)).detach();
-        }
-    })
+        runtime::spawn(handle(stream)).detach();
+    }
 }

@@ -87,17 +87,16 @@ async fn listen(listener: Async<TcpListener>, tls: Option<TlsAcceptor>) -> Resul
     }
 }
 
-fn main() -> Result<()> {
+#[cynthia::main]
+async fn main() -> Result<()> {
     let identity = Identity::from_pkcs12(include_bytes!("identity.pfx"), "password")?;
     let tls = TlsAcceptor::from(native_tls::TlsAcceptor::new(identity)?);
 
-    cynthia::runtime::block_on(async {
-        let http = listen(Async::<TcpListener>::bind(([127, 0, 0, 1], 8000))?, None);
-        let https = listen(
-            Async::<TcpListener>::bind(([127, 0, 0, 1], 8001))?,
-            Some(tls),
-        );
-        future::try_zip(http, https).await?;
-        Ok(())
-    })
+    let http = listen(Async::<TcpListener>::bind(([127, 0, 0, 1], 8000))?, None);
+    let https = listen(
+        Async::<TcpListener>::bind(([127, 0, 0, 1], 8001))?,
+        Some(tls),
+    );
+    future::try_zip(http, https).await?;
+    Ok(())
 }

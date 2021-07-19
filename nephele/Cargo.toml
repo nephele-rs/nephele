@@ -6,7 +6,7 @@ keywords = ["asynchronous", "runtime"]
 license = "MIT/Apache-2.0"
 name = "nephele"
 readme = "README.md"
-version = "0.0.1"
+version = "0.0.2"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
@@ -18,7 +18,7 @@ alloc = [
 ]
 
 [dependencies]
-cynthia = { version = "0.0.2", path="../cynthia" }
+cynthia = { version = "0.0.3", features = ["full"]}
 pin-project-lite = { version = "0.2.0", optional = true }
 pin-project = "1.0.2"
 futures-core = { version = "0.3.5", default-features = false }

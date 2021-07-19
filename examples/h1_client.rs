@@ -36,17 +36,16 @@ async fn fetch(req: Request) -> Result<Response> {
     Ok(resp)
 }
 
-fn main() -> Result<()> {
-    cynthia::runtime::block_on(async {
-        let addr = "https://www.rust-lang.org";
-        let req = Request::new(Method::Get, Url::parse(addr)?);
+#[cynthia::main]
+async fn main() -> Result<()> {
+    let addr = "https://www.rust-lang.org";
+    let req = Request::new(Method::Get, Url::parse(addr)?);
 
-        let mut resp = fetch(req).await?;
+    let mut resp = fetch(req).await?;
 
-        let mut body = Vec::new();
-        resp.read_to_end(&mut body).await?;
-        println!("{}", String::from_utf8_lossy(&body));
+    let mut body = Vec::new();
+    resp.read_to_end(&mut body).await?;
+    println!("{}", String::from_utf8_lossy(&body));
 
-        Ok(())
-    })
+    Ok(())
 }

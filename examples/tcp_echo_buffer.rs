@@ -17,13 +17,12 @@ async fn echo(mut stream: Async<TcpStream>) -> swap::Result<()> {
     }
 }
 
-fn main() -> swap::Result<()> {
-    runtime::block_on(async {
-        let listener = Async::<TcpListener>::bind(([127, 0, 0, 1], 7000))?;
+#[cynthia::main]
+async fn main() -> swap::Result<()> {
+    let listener = Async::<TcpListener>::bind(([127, 0, 0, 1], 7000))?;
 
-        loop {
-            let (stream, _peer_addr) = listener.accept().await?;
-            runtime::spawn(echo(stream)).detach();
-        }
-    })
+    loop {
+        let (stream, _peer_addr) = listener.accept().await?;
+        runtime::spawn(echo(stream)).detach();
+    }
 }

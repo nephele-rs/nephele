@@ -38,13 +38,12 @@ async fn handle(stream: Async<TcpStream>) -> Result<()> {
     Ok(())
 }
 
-fn main() -> Result<()> {
-    runtime::block_on(async {
-        let listener = Async::<TcpListener>::bind(([127, 0, 0, 1], 7000))?;
+#[cynthia::main]
+async fn main() -> Result<()> {
+    let listener = Async::<TcpListener>::bind(([127, 0, 0, 1], 7000))?;
 
-        loop {
-            let (stream, _peer_addr) = listener.accept().await?;
-            runtime::spawn(handle(stream)).detach();
-        }
-    })
+    loop {
+        let (stream, _peer_addr) = listener.accept().await?;
+        runtime::spawn(handle(stream)).detach();
+    }
 }
