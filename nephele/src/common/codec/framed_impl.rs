@@ -2,7 +2,6 @@ use bytes::BytesMut;
 use cynthia::future::swap::{AsyncRead, AsyncWrite};
 use futures_core::{ready, stream::Stream};
 use futures_sink::Sink;
-use log::trace;
 use pin_project_lite::pin_project;
 use std::borrow::{Borrow, BorrowMut};
 use std::io;
@@ -125,10 +124,7 @@ where
                     return Poll::Ready(frame.map(Ok));
                 }
 
-                trace!("attempting to decode a frame");
-
                 if let Some(frame) = pinned.codec.decode(&mut state.buffer)? {
-                    trace!("frame decoded from buffer");
                     return Poll::Ready(Some(Ok(frame)));
                 }
 
@@ -178,13 +174,10 @@ where
 
     fn poll_flush(self: Pin<&mut Self>, cx: &mut Context<'_>) -> Poll<Result<(), Self::Error>> {
         use crate::common::codec::util::poll_write_buf;
-        trace!("flushing framed transport");
         let mut pinned = self.project();
 
         while !pinned.state.borrow_mut().buffer.is_empty() {
             let WriteFrame { buffer } = pinned.state.borrow_mut();
-            trace!("writing; remaining={}", buffer.len());
-
             let n = ready!(poll_write_buf(pinned.inner.as_mut(), cx, buffer))?;
 
             if n == 0 {
@@ -199,7 +192,6 @@ where
 
         ready!(pinned.inner.poll_flush(cx))?;
 
-        trace!("framed transport flushed");
         Poll::Ready(Ok(()))
     }
 

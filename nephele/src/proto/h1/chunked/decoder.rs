@@ -1,6 +1,6 @@
-use byte_pool::{Block, BytePool};
 use cynthia::future::swap::AsyncRead;
 use cynthia::future::swap::{self};
+use cynthia::runtime::{ByteBuffer, BytePool};
 use std::fmt;
 use std::future::Future;
 use std::ops::Range;
@@ -20,7 +20,7 @@ lazy_static::lazy_static! {
 #[derive(Debug)]
 pub struct ChunkedDecoder<R: AsyncRead> {
     inner: R,
-    buffer: Block<'static>,
+    buffer: ByteBuffer<'static>,
     current: Range<usize>,
     initial_decode: bool,
     state: State,
@@ -44,7 +44,7 @@ impl<R: AsyncRead + Unpin> ChunkedDecoder<R> {
     fn poll_read_chunk(
         &mut self,
         cx: &mut Context<'_>,
-        buffer: Block<'static>,
+        buffer: ByteBuffer<'static>,
         pos: &Range<usize>,
         buf: &mut [u8],
         current: u64,
@@ -118,7 +118,7 @@ impl<R: AsyncRead + Unpin> ChunkedDecoder<R> {
     fn poll_read_inner(
         &mut self,
         cx: &mut Context<'_>,
-        buffer: Block<'static>,
+        buffer: ByteBuffer<'static>,
         pos: &Range<usize>,
         buf: &mut [u8],
     ) -> swap::Result<DecodeResult> {
@@ -320,12 +320,12 @@ impl<R: AsyncRead + Unpin> AsyncRead for ChunkedDecoder<R> {
 enum DecodeResult {
     Some {
         read: usize,
-        buffer: Block<'static>,
+        buffer: ByteBuffer<'static>,
         new_pos: Range<usize>,
         new_state: Option<State>,
         pending: bool,
     },
-    None(Block<'static>),
+    None(ByteBuffer<'static>),
 }
 
 enum State {
@@ -364,7 +364,7 @@ impl fmt::Debug for DecodeResult {
             } => f
                 .debug_struct("DecodeResult::Some")
                 .field("read", read)
-                .field("block", &buffer.len())
+                .field("buffer", &buffer.len())
                 .field("new_pos", new_pos)
                 .field("new_state", new_state)
                 .field("pending", pending)
@@ -374,7 +374,7 @@ impl fmt::Debug for DecodeResult {
     }
 }
 
-fn decode_init(buffer: Block<'static>, pos: &Range<usize>) -> swap::Result<DecodeResult> {
+fn decode_init(buffer: ByteBuffer<'static>, pos: &Range<usize>) -> swap::Result<DecodeResult> {
     use httparse::Status;
     match httparse::parse_chunk_size(&buffer[pos.start..pos.end]) {
         Ok(Status::Complete((used, chunk_len))) => {
@@ -402,7 +402,7 @@ fn decode_init(buffer: Block<'static>, pos: &Range<usize>) -> swap::Result<Decod
     }
 }
 
-fn decode_chunk_end(buffer: Block<'static>, pos: &Range<usize>) -> swap::Result<DecodeResult> {
+fn decode_chunk_end(buffer: ByteBuffer<'static>, pos: &Range<usize>) -> swap::Result<DecodeResult> {
     if pos.len() < 2 {
         return Ok(DecodeResult::None(buffer));
     }
@@ -423,7 +423,7 @@ fn decode_chunk_end(buffer: Block<'static>, pos: &Range<usize>) -> swap::Result<
     Err(swap::Error::from(swap::ErrorKind::InvalidData))
 }
 
-fn decode_trailer(buffer: Block<'static>, pos: &Range<usize>) -> swap::Result<DecodeResult> {
+fn decode_trailer(buffer: ByteBuffer<'static>, pos: &Range<usize>) -> swap::Result<DecodeResult> {
     use httparse::Status;
 
     let mut headers = [httparse::EMPTY_HEADER; 16];

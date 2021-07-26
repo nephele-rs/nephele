@@ -81,11 +81,3 @@ path = "wait_group.rs"
 [[example]]
 name = "channel"
 path = "channel.rs"
-
-[[example]]
-name = "macro_test"
-path = "macro_test.rs"
-
-[[example]]
-name = "macro_h1_server"
-path = "macro_h1_server.rs"
