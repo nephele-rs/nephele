@@ -26,7 +26,7 @@ async fn api_fetch_upstream() -> nephele::common::http_types::Result<Response> {
     match Body::from_json(&json!({ "hello": "json" })) {
         Ok(json) => {
             req.set_body(json);
-            let stream = Async::<TcpStream>::connect(([127, 0, 0, 1], 7000)).await?;
+            let stream = Async::<TcpStream>::connect("127.0.0.1:7000").await?;
             let resp = nephele::proto::h1::connect(stream, req)
                 .await
                 .map_err(Error::msg)?;
@@ -133,9 +133,9 @@ async fn main() -> Result<()> {
     let identity = Identity::from_pkcs12(include_bytes!("identity.pfx"), "password")?;
     let tls = TlsAcceptor::from(native_tls::TlsAcceptor::new(identity)?);
 
-    let http = listen(Async::<TcpListener>::bind(([127, 0, 0, 1], 7000))?, None);
+    let http = listen(Async::<TcpListener>::bind("127.0.0.1:7000").await?, None);
     let https = listen(
-        Async::<TcpListener>::bind(([127, 0, 0, 1], 8002))?,
+        Async::<TcpListener>::bind("127.0.0.1:8002").await?,
         Some(tls),
     );
     future::try_zip(http, https).await?;

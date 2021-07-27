@@ -21,7 +21,7 @@ async fn handle(socket: Async<TcpStream>) -> Result<(), Box<dyn Error + Send + S
 
 #[cynthia::main]
 async fn main() -> swap::Result<()> {
-    let listener = Async::<TcpListener>::bind(([0, 0, 0, 0], 7000))?;
+    let listener = Async::<TcpListener>::bind("0.0.0.0:7000").await?;
     loop {
         let (stream, _peer_addr) = listener.accept().await?;
 

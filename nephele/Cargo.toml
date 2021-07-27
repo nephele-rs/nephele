@@ -18,7 +18,7 @@ alloc = [
 ]
 
 [dependencies]
-cynthia = { version = "0.0.4", features = ["full"]}
+cynthia = { version = "0.0.6", features = ["full"]}
 pin-project-lite = { version = "0.2.0", optional = true }
 pin-project = "1.0.2"
 futures-core = { version = "0.3.5", default-features = false }

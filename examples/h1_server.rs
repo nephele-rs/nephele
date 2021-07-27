@@ -58,9 +58,10 @@ async fn main() -> Result<()> {
     let identity = Identity::from_pkcs12(include_bytes!("identity.pfx"), "password")?;
     let tls = TlsAcceptor::from(native_tls::TlsAcceptor::new(identity)?);
 
-    let http = listen(Async::<TcpListener>::bind(([127, 0, 0, 1], 7000))?, None);
+    let listener = Async::<TcpListener>::bind("127.0.0.1:7000").await?;
+    let http = listen(listener, None);
     let https = listen(
-        Async::<TcpListener>::bind(([127, 0, 0, 1], 8002))?,
+        Async::<TcpListener>::bind("127.0.0.1:8002").await?,
         Some(tls),
     );
     future::try_zip(http, https).await?;
