@@ -33,18 +33,11 @@ use crate::proto::h2::proto::*;
 #[derive(Debug)]
 pub struct Config {
     pub local_init_window_sz: WindowSize,
-
     pub initial_max_send_streams: usize,
-
     pub local_next_stream_id: StreamId,
-
     pub local_push_enabled: bool,
-
     pub local_reset_duration: Duration,
-
     pub local_reset_max: usize,
-
     pub remote_init_window_sz: WindowSize,
-
     pub remote_max_initiated: Option<usize>,
 }

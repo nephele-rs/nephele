@@ -9,15 +9,10 @@ use crate::common::codec::{Decoder, Encoder, Framed, FramedRead, FramedWrite};
 #[derive(Debug, Clone, Copy)]
 pub struct Builder {
     max_frame_len: usize,
-
     length_field_len: usize,
-
     length_field_offset: usize,
-
     length_adjustment: isize,
-
     num_skip: Option<usize>,
-
     length_field_is_big_endian: bool,
 }
 

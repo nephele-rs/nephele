@@ -19,21 +19,13 @@ where
     P: Peer,
 {
     state: State,
-
     error: Option<Reason>,
-
     codec: Codec<T, Prioritized<B>>,
-
     go_away: GoAway,
-
     ping_pong: PingPong,
-
     settings: Settings,
-
     streams: Streams<B, P>,
-
     span: tracing::Span,
-
     _phantom: PhantomData<P>,
 }
 

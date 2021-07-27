@@ -12,38 +12,24 @@ pub enum RecvError {
 #[derive(Debug)]
 pub enum SendError {
     User(UserError),
-
     Connection(Reason),
-
     Io(io::Error),
 }
 
 #[derive(Debug)]
 pub enum UserError {
     InactiveStreamId,
-
     UnexpectedFrameType,
-
     PayloadTooBig,
-
     HeaderTooBig,
-
     Rejected,
-
     ReleaseCapacityTooBig,
-
     OverflowedStreamId,
-
     MalformedHeaders,
-
     MissingUriSchemeAndAuthority,
-
     PollResetAfterSendResponse,
-
     SendPingWhilePending,
-
     SendSettingsWhilePending,
-
     PeerDisabledServerPush,
 }
 

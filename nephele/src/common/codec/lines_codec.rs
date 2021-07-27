@@ -7,9 +7,7 @@ use crate::common::codec::encoder::Encoder;
 #[derive(Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash)]
 pub struct LinesCodec {
     next_index: usize,
-
     max_length: usize,
-
     is_discarding: bool,
 }
 

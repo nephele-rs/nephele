@@ -36,7 +36,6 @@ enum Cause {
     Proto(Reason),
     LocallyReset(Reason),
     Io,
-
     Scheduled(Reason),
 }
 

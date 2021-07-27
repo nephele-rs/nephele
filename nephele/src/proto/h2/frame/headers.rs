@@ -15,11 +15,8 @@ const MAX_HEADER_LENGTH: usize = 1024 * 16 - 100;
 #[derive(Eq, PartialEq)]
 pub struct Headers {
     stream_id: StreamId,
-
     stream_dep: Option<StreamDependency>,
-
     header_block: HeaderBlock,
-
     flags: HeadersFlag,
 }
 
@@ -29,11 +26,8 @@ pub struct HeadersFlag(u8);
 #[derive(Eq, PartialEq)]
 pub struct PushPromise {
     stream_id: StreamId,
-
     promised_id: StreamId,
-
     header_block: HeaderBlock,
-
     flags: PushPromiseFlag,
 }
 
@@ -43,7 +37,6 @@ pub struct PushPromiseFlag(u8);
 #[derive(Debug)]
 pub struct Continuation {
     stream_id: StreamId,
-
     header_block: EncodingHeaderBlock,
 }
 
@@ -53,30 +46,25 @@ pub struct Pseudo {
     pub scheme: Option<BytesStr>,
     pub authority: Option<BytesStr>,
     pub path: Option<BytesStr>,
-
     pub status: Option<StatusCode>,
 }
 
 #[derive(Debug)]
 pub struct Iter {
     pseudo: Option<Pseudo>,
-
     fields: header::IntoIter<HeaderValue>,
 }
 
 #[derive(Debug, PartialEq, Eq)]
 struct HeaderBlock {
     fields: HeaderMap,
-
     is_over_size: bool,
-
     pseudo: Pseudo,
 }
 
 #[derive(Debug)]
 struct EncodingHeaderBlock {
     hpack: Option<hpack::EncodeState>,
-
     headers: Iter,
 }
 

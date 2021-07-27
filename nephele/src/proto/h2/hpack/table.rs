@@ -21,13 +21,9 @@ pub struct Table {
 #[derive(Debug)]
 pub enum Index {
     Indexed(usize, Header),
-
     Name(usize, Header),
-
     Inserted(usize),
-
     InsertedValue(usize, usize),
-
     NotIndexed(Header),
 }
 

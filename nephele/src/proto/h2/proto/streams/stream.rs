@@ -7,61 +7,33 @@ use super::*;
 #[derive(Debug)]
 pub(super) struct Stream {
     pub id: StreamId,
-
     pub state: State,
-
     pub is_counted: bool,
-
     pub ref_count: usize,
-
     pub next_pending_send: Option<store::Key>,
-
     pub is_pending_send: bool,
-
     pub send_flow: FlowControl,
-
     pub requested_send_capacity: WindowSize,
-
     pub buffered_send_data: WindowSize,
-
     send_task: Option<Waker>,
-
     pub pending_send: buffer::Deque,
-
     pub next_pending_send_capacity: Option<store::Key>,
-
     pub is_pending_send_capacity: bool,
-
     pub send_capacity_inc: bool,
-
     pub next_open: Option<store::Key>,
-
     pub is_pending_open: bool,
-
     pub is_pending_push: bool,
-
     pub next_pending_accept: Option<store::Key>,
-
     pub is_pending_accept: bool,
-
     pub recv_flow: FlowControl,
-
     pub in_flight_recv_data: WindowSize,
-
     pub next_window_update: Option<store::Key>,
-
     pub is_pending_window_update: bool,
-
     pub reset_at: Option<Instant>,
-
     pub next_reset_expire: Option<store::Key>,
-
     pub pending_recv: buffer::Deque,
-
     pub recv_task: Option<Waker>,
-
     pub pending_push_promises: store::Queue<NextAccept>,
-
     pub content_length: ContentLength,
 }
 

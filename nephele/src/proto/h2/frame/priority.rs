@@ -9,9 +9,7 @@ pub struct Priority {
 #[derive(Debug, Eq, PartialEq)]
 pub struct StreamDependency {
     dependency_id: StreamId,
-
     weight: u8,
-
     is_exclusive: bool,
 }
 

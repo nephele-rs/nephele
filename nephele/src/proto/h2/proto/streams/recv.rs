@@ -13,29 +13,17 @@ use crate::proto::h2::{frame, proto};
 #[derive(Debug)]
 pub(super) struct Recv {
     init_window_sz: WindowSize,
-
     flow: FlowControl,
-
     in_flight_data: WindowSize,
-
     next_stream_id: Result<StreamId, StreamIdOverflow>,
-
     last_processed_id: StreamId,
-
     max_stream_id: StreamId,
-
     pending_window_updates: store::Queue<stream::NextWindowUpdate>,
-
     pending_accept: store::Queue<stream::NextAccept>,
-
     pending_reset_expired: store::Queue<stream::NextResetExpire>,
-
     reset_duration: Duration,
-
     buffer: Buffer<Event>,
-
     refused: Option<StreamId>,
-
     is_push_enabled: bool,
 }
 

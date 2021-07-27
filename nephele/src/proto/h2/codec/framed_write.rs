@@ -19,17 +19,11 @@ macro_rules! limited_write_buf {
 #[derive(Debug)]
 pub struct FramedWrite<T, B> {
     inner: T,
-
     hpack: hpack::Encoder,
-
     buf: Cursor<BytesMut>,
-
     next: Option<Next<B>>,
-
     last_data_frame: Option<frame::Data<B>>,
-
     max_frame_size: FrameSize,
-
     is_write_vectored: bool,
 }
 

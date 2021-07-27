@@ -32,8 +32,6 @@ where
 
     let mut httparse_req = httparse::Request::new(&mut headers);
 
-    println!("headers = {:?}", httparse_req);
-
     loop {
         let bytes_read = reader.read_until(LF, &mut buf).await?;
         if bytes_read == 0 {
@@ -47,12 +45,9 @@ where
 
         let idx = buf.len() - 1;
         if idx >= 3 && &buf[idx - 3..=idx] == b"\r\n\r\n" {
-            println!("brrrrrrr {}", idx);
             break;
         }
     }
-
-    println!("version = {:?}", buf);
 
     let status = httparse_req.parse(&buf)?;
 
@@ -62,10 +57,7 @@ where
     let method = method.ok_or_else(|| format_err!("No method found"))?;
 
     let version = httparse_req.version;
-    println!("version = {:?}", version);
     let version = version.ok_or_else(|| format_err!("No version found"))?;
-
-    println!("version = {} {}", method, version);
 
     ensure_eq!(
         version,
@@ -73,8 +65,6 @@ where
         "Unsupported HTTP version 1.{}",
         version
     );
-
-    println!("111 version = {} {}", method, version);
 
     let url = url_from_httparse_req(&httparse_req)?;
 

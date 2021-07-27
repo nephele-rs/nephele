@@ -42,22 +42,16 @@ pub(crate) struct OpaqueStreamRef {
 #[derive(Debug)]
 struct Inner {
     counts: Counts,
-
     actions: Actions,
-
     store: Store,
-
     refs: usize,
 }
 
 #[derive(Debug)]
 struct Actions {
     recv: Recv,
-
     send: Send,
-
     task: Option<Waker>,
-
     conn_error: Option<proto::Error>,
 }
 

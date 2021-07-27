@@ -19,11 +19,8 @@ const DEFAULT_SETTINGS_MAX_HEADER_LIST_SIZE: usize = 16 << 20;
 #[derive(Debug)]
 pub struct FramedRead<T> {
     inner: InnerFramedRead<T, LengthDelimitedCodec>,
-
     hpack: hpack::Decoder,
-
     max_header_list_size: usize,
-
     partial: Option<Partial>,
 }
 
