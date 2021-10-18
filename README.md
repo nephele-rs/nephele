@@ -11,6 +11,7 @@ A fast and simple HTTP implementation for Rust.
 Make sure you activated the full features of the nephele crate on Cargo.toml:
 ```toml
 [dependencies]
+cynthia = { version = "0.0.6" }
 nephele = { version = "0.0.2" }
 ```
 
@@ -19,7 +20,7 @@ A basic Http echo server with nephele.
 use anyhow::Result;
 use std::net::TcpListener;
 
-use cynthia::runtime::{self, future, Async};
+use cynthia::runtime::{self, Async};
 
 use nephele::http_types::{Request, Response, StatusCode};
 
